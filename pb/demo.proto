@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package pb;
+
+service DemoService {
+	rpc ListUsers (UserRequest) returns (Users);
+    rpc GetUser (UserRequest) returns (User);
+}
+
+message UserRequest {
+	int64 id = 1;
+	repeated int64 ids = 2;
+	repeated int64 not_ids = 5;
+	int32 limit = 4;
+	string fullname = 7;
+	string username = 6;
+	string email = 8;
+	string phone = 10;
+	repeated string phones = 11;
+	int32 state = 12;
+	string app = 18;
+	string idtoken = 19;
+	int32 offset = 20;
+	repeated string includes = 21;
+}
+
+message Users {
+	repeated User users =1;
+	int32 total = 3;
+	string filename = 2;
+}
+
+message User { //  user
+    // `xorm:"pk autoincr notnull"`
+	int64 id = 1;
+	string username = 2;
+	// `xorm:"text"`
+	string avatar = 3;
+	string fullname = 5;
+	// `xorm:"index"`
+	string phone = 6;
+	map<string, int64> apps = 7; // app and create time
+	// `xorm:"text"`
+	string address = 8;
+	// `xorm:"index"`
+	string email = 12;
+	State state = 13;
+	enum State {
+		default_state = 0;
+		deactive = 1;
+		active = 2;
+	}
+	int64 updated_at = 14;
+	int64 birth = 15;
+	int64 created = 16;
+	Gender gender = 20;
+	enum Gender {
+		default_gender = 0;
+		male = 1;
+		female = 2;
+		other = 3;
+	}
+	Language language = 21;
+	enum Language {
+		default_language = 0;
+		vi = 1;
+		en = 2;
+	}
+	string password = 24; // using with email | username
+	int32 valid_phone = 32;
+	int32 valid_email = 33;
+	string filename =  34;
+}
